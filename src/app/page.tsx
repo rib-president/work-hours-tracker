@@ -80,7 +80,6 @@ export default function Home() {
       const entry = entries.find(e => e.date === date);
       setSelectedDate(date);
       setSelectedEntry(entry || null);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
   
