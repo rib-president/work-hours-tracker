@@ -92,12 +92,24 @@ export function formatMinutes(minutes: number): string {
   return `${hours}시간${mins}분`;
 }
 
-export function getWeekdayCountInMonth(weekStartDate: Date, weekEndDate: Date, year: number, month: number): number {
+export function getWeekdayCountInMonth(weekStartDate: Date, weekEndDate: Date, year: number, month: number, filledDates?: Set<string>): number {
   let count = 0;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const d = new Date(weekStartDate);
   while (d <= weekEndDate) {
     const dayOfWeek = d.getDay();
     if (dayOfWeek >= 1 && dayOfWeek <= 5 && d.getFullYear() === year && d.getMonth() + 1 === month) {
+      if (filledDates) {
+        const dateStr = formatDate(d);
+        const hasEntry = filledDates.has(dateStr);
+        const isFuture = d.getTime() > today.getTime();
+        const isUnfilledToday = d.getTime() === today.getTime() && !hasEntry;
+        if (isFuture || isUnfilledToday) {
+          d.setDate(d.getDate() + 1);
+          continue;
+        }
+      }
       count++;
     }
     d.setDate(d.getDate() + 1);
@@ -107,6 +119,7 @@ export function getWeekdayCountInMonth(weekStartDate: Date, weekEndDate: Date, y
 
 export function groupEntriesByWeek(entries: WorkEntry[], year?: number, month?: number): WeeklyStats[] {
   const weekMap = new Map<string, WorkEntry[]>();
+  const filledDates = new Set(entries.map(e => e.date));
   
   entries.forEach(entry => {
     const date = new Date(entry.date);
@@ -131,7 +144,7 @@ export function groupEntriesByWeek(entries: WorkEntry[], year?: number, month?: 
     
     let weekdayCount: number;
     if (year !== undefined && month !== undefined) {
-      weekdayCount = getWeekdayCountInMonth(weekStartDate, end, year, month);
+      weekdayCount = getWeekdayCountInMonth(weekStartDate, end, year, month, filledDates);
     } else {
       weekdayCount = 5;
     }

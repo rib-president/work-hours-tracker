@@ -193,7 +193,7 @@ export function WorkEntryForm({ onAddEntry, selectedDate, selectedEntry, setSele
         {leaveType === '연차' && <span className="text-sm text-[#FF6B00]">☕ + 1시간 휴게</span>}
         {leaveType === '반차' && <span className="text-sm text-[#FF6B00]">☕ + 30분 휴게</span>}
         {leaveType && leaveType !== '공휴일' && (
-          <span className="text-sm text-[#FF6B00] font-bold">→ {leaveType}로 {leaveType === '연차' ? '8시간' : leaveType === '반차' ? '8시간' : '2시간'} 적립</span>
+          <span className="text-sm text-[#FF6B00] font-bold">→ {leaveType}로 {leaveType === '연차' ? '8시간' : leaveType === '반차' ? '4시간' : '2시간'} 적립</span>
         )}
       </div>
       
