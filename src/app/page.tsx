@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { WorkEntry, MonthlyStats } from '../types';
-import { calculateMonthlyStats, groupEntriesByWeek, formatDate, formatDisplayDate, isWeekend, generateId } from '../utils/calculate';
+import { calculateMonthlyStats, groupEntriesByWeek, formatDate, formatDisplayDate, isWeekend, generateId, getMinutesWithLeave, formatMinutes } from '../utils/calculate';
 import { WorkEntryForm, WeeklySummary, EntryList, MonthlyOverview } from '../components';
 
 export default function Home() {
@@ -119,7 +119,7 @@ export default function Home() {
         <div 
           key={day}
           onClick={() => handleDateClick(dateStr, isWknd, isHol)}
-          className={`p-1 sm:p-2 border-2 text-sm min-h-[48px] sm:min-h-[60px] transition-colors rounded-lg overflow-hidden
+          className={`p-1 sm:p-2 border text-sm min-h-[48px] sm:min-h-[60px] transition-colors rounded-lg overflow-hidden
             ${isHol ? 'bg-[#FFF3E0] border-[#FF9F1C] border-dashed' : ''}
             ${isWknd && !isHol ? 'bg-[#E8E8E8] cursor-not-allowed' : 'bg-white hover:bg-[#FFF8E7] cursor-pointer'}
             ${entry && !isWknd ? 'bg-[#FFF8DC]' : ''}
@@ -132,15 +132,9 @@ export default function Home() {
             {isHol && <span className="text-[10px] sm:text-xs font-bold text-[#FF6B00]">공휴일</span>}
           </div>
           {entry && (
-            <div className="text-[10px] sm:text-xs mt-0.5 sm:mt-1 text-[#FF9F1C] leading-tight">
-              {entry.leaveType ? (
-                <div>
-                  <div className="font-bold">{entry.leaveType}</div>
-                  <div>{entry.startTime}~{entry.endTime}</div>
-                </div>
-              ) : (
-                <div>{entry.startTime}~{entry.endTime}</div>
-              )}
+            <div className="text-[10px] sm:text-xs mt-0.5 sm:mt-1 text-[#FF9F1C] leading-tight font-bold">
+              {entry.leaveType && <div>{entry.leaveType}</div>}
+              <div>{formatMinutes(getMinutesWithLeave(entry))}</div>
             </div>
           )}
         </div>
@@ -161,13 +155,13 @@ export default function Home() {
         
         <MonthlyOverview stats={monthlyStats} />
         
-        <div className="bg-white p-6 rounded-xl shadow-sm mb-6 border-2 border-[#FFD93D]">
+        <div className="bg-white p-6 rounded-xl shadow-sm mb-6 border border-[#FFD93D]">
           <div className="flex flex-wrap gap-4 items-center justify-between">
             <div className="flex gap-4">
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                className="px-4 py-2 border-2 border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] font-medium"
+                className="px-4 py-2 border border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] font-medium"
               >
                 {years.map(year => (
                   <option key={year} value={year}>{year}년</option>
@@ -176,7 +170,7 @@ export default function Home() {
               <select
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-                className="px-4 py-2 border-2 border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] font-medium"
+                className="px-4 py-2 border border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] font-medium"
               >
                 {months.map(month => (
                   <option key={month} value={month}>{month}월</option>
@@ -186,7 +180,7 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="bg-white p-6 rounded-xl shadow-sm mb-6 border-2 border-[#FFD93D]">
+        <div className="bg-white p-6 rounded-xl shadow-sm mb-6 border border-[#FFD93D]">
           <h2 className="text-xl font-extrabold mb-4 text-[#FF6B00]">📅 {selectedYear}년 {selectedMonth}월</h2>
           <div className="grid grid-cols-7 gap-1 mb-2">
             {['일', '월', '화', '수', '목', '금', '토'].map(d => (
@@ -215,12 +209,12 @@ export default function Home() {
         )}
         
         {weeks.length === 0 && entries.length > 0 && (
-          <div className="mt-6 bg-white p-6 rounded-xl shadow-sm text-center text-[#FF9F1C] border-2 border-[#FFD93D] font-medium">
+          <div className="mt-6 bg-white p-6 rounded-xl shadow-sm text-center text-[#FF9F1C] border border-[#FFD93D] font-medium">
             🤷‍♂️ 선택한 월의 데이터가 없습니다. 다른 월을 선택하거나 새 근무 기록을 추가해주세요.
           </div>
         )}
         
-        <div className="mt-8 bg-[#FFFEF0] p-6 rounded-xl border-2 border-[#FFD93D]">
+        <div className="mt-8 bg-[#FFFEF0] p-6 rounded-xl border border-[#FFD93D]">
           <h3 className="font-extrabold text-[#FF6B00] mb-2">ℹ️ 참고사항</h3>
           <ul className="text-sm text-[#FF9F1C] space-y-1 font-medium">
             <li>- 📅 월~금요일 × 8시간 = 월별 예상 근무시간</li>
