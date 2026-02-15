@@ -92,7 +92,7 @@ export default function Home() {
     groupEntriesByWeek(entries.filter(e => {
       const date = new Date(e.date);
       return date.getFullYear() === selectedYear && date.getMonth() + 1 === selectedMonth;
-    })),
+    }), selectedYear, selectedMonth),
     [entries, selectedYear, selectedMonth]
   );
   
@@ -119,27 +119,27 @@ export default function Home() {
         <div 
           key={day}
           onClick={() => handleDateClick(dateStr, isWknd, isHol)}
-          className={`p-2 border-2 text-sm min-h-[60px] transition-colors rounded-lg
+          className={`p-1 sm:p-2 border-2 text-sm min-h-[48px] sm:min-h-[60px] transition-colors rounded-lg overflow-hidden
             ${isHol ? 'bg-[#FFF3E0] border-[#FF9F1C] border-dashed' : ''}
             ${isWknd && !isHol ? 'bg-[#E8E8E8] cursor-not-allowed' : 'bg-white hover:bg-[#FFF8E7] cursor-pointer'}
             ${entry && !isWknd ? 'bg-[#FFF8DC]' : ''}
           `}
         >
           <div className="flex justify-between items-start">
-            <span className={`font-bold ${isWknd && !isHol ? 'text-[#666]' : 'text-[#FF6B00]'}`}>
+            <span className={`font-bold text-xs sm:text-sm ${isWknd && !isHol ? 'text-[#666]' : 'text-[#FF6B00]'}`}>
               {day}
             </span>
-            {isHol && <span className="text-xs font-bold text-[#FF6B00]">공휴일</span>}
+            {isHol && <span className="text-[10px] sm:text-xs font-bold text-[#FF6B00]">공휴일</span>}
           </div>
           {entry && (
-            <div className="text-xs mt-1 text-[#FF9F1C]">
+            <div className="text-[10px] sm:text-xs mt-0.5 sm:mt-1 text-[#FF9F1C] leading-tight">
               {entry.leaveType ? (
                 <div>
-                  <span className="font-bold">{entry.leaveType}</span>
-                  <span className="ml-1">{entry.startTime}~{entry.endTime}</span>
+                  <div className="font-bold">{entry.leaveType}</div>
+                  <div>{entry.startTime}~{entry.endTime}</div>
                 </div>
               ) : (
-                <span>{entry.startTime}~{entry.endTime}</span>
+                <div>{entry.startTime}~{entry.endTime}</div>
               )}
             </div>
           )}
@@ -190,7 +190,7 @@ export default function Home() {
           <h2 className="text-xl font-extrabold mb-4 text-[#FF6B00]">📅 {selectedYear}년 {selectedMonth}월</h2>
           <div className="grid grid-cols-7 gap-1 mb-2">
             {['일', '월', '화', '수', '목', '금', '토'].map(d => (
-              <div key={d} className="p-2 text-center font-bold text-[#FF9F1C] text-sm">
+              <div key={d} className="p-1 sm:p-2 text-center font-bold text-[#FF9F1C] text-xs sm:text-sm">
                 {d}
               </div>
             ))}

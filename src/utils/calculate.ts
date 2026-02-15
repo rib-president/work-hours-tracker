@@ -92,7 +92,20 @@ export function formatMinutes(minutes: number): string {
   return `${hours}시간${mins}분`;
 }
 
-export function groupEntriesByWeek(entries: WorkEntry[]): WeeklyStats[] {
+export function getWeekdayCountInMonth(weekStartDate: Date, weekEndDate: Date, year: number, month: number): number {
+  let count = 0;
+  const d = new Date(weekStartDate);
+  while (d <= weekEndDate) {
+    const dayOfWeek = d.getDay();
+    if (dayOfWeek >= 1 && dayOfWeek <= 5 && d.getFullYear() === year && d.getMonth() + 1 === month) {
+      count++;
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  return count;
+}
+
+export function groupEntriesByWeek(entries: WorkEntry[], year?: number, month?: number): WeeklyStats[] {
   const weekMap = new Map<string, WorkEntry[]>();
   
   entries.forEach(entry => {
@@ -115,8 +128,14 @@ export function groupEntriesByWeek(entries: WorkEntry[]): WeeklyStats[] {
     const { end } = getWeekStartEnd(weekStartDate);
     
     const totalMinutes = weekEntries.reduce((sum, entry) => sum + getMinutesWithLeave(entry), 0);
-    const entriesWithHours = weekEntries.filter(e => !e.leaveType || ['공휴일', '연차', '반차', '반반차'].includes(e.leaveType));
-    const averageDailyMinutes = entriesWithHours.length > 0 ? totalMinutes / entriesWithHours.length : 0;
+    
+    let weekdayCount: number;
+    if (year !== undefined && month !== undefined) {
+      weekdayCount = getWeekdayCountInMonth(weekStartDate, end, year, month);
+    } else {
+      weekdayCount = 5;
+    }
+    const averageDailyMinutes = weekdayCount > 0 ? totalMinutes / weekdayCount : 0;
     
     weeks.push({
       weekStart: weekStart,
@@ -161,7 +180,7 @@ export function calculateMonthlyStats(
   const unfilledPastDays = pastDays.filter(d => !filledDates.has(formatDate(d)));
   const unfilledFutureDays = futureDays.filter(d => !filledDates.has(formatDate(d)));
   
-  const weeks = groupEntriesByWeek(monthEntries);
+  const weeks = groupEntriesByWeek(monthEntries, year, month);
   
   let totalMinutes = 0;
   const leaveSummary = { 연차: 0, 반차: 0, 반반차: 0 };
