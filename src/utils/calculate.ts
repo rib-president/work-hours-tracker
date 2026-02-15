@@ -105,7 +105,7 @@ export function getWeekdayCountInMonth(weekStartDate: Date, weekEndDate: Date, y
         const hasEntry = filledDates.has(dateStr);
         const isFuture = d.getTime() > today.getTime();
         const isUnfilledToday = d.getTime() === today.getTime() && !hasEntry;
-        if (isFuture || isUnfilledToday) {
+        if ((isFuture && !hasEntry) || isUnfilledToday) {
           d.setDate(d.getDate() + 1);
           continue;
         }
