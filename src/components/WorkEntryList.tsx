@@ -9,7 +9,7 @@ interface WeeklySummaryProps {
 
 export function WeeklySummary({ stats }: WeeklySummaryProps) {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border-2 border-[#FFD93D]">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#FFD93D]">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold text-[#FF6B00]">
           📈 {formatDisplayDate(stats.weekStart)} ~ {formatDisplayDate(stats.weekEnd)}
@@ -44,7 +44,7 @@ export function EntryList({ entries, onDelete }: EntryListProps) {
   }
   
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm mt-6 border-2 border-[#FFD93D]">
+    <div className="bg-white p-6 rounded-xl shadow-sm mt-6 border border-[#FFD93D]">
       <h3 className="text-lg font-bold mb-4 text-[#FF6B00]">📋 근무 기록 상세</h3>
       <div className="overflow-x-auto">
         <table className="w-full">

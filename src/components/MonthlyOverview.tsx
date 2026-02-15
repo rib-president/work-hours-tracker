@@ -13,7 +13,7 @@ export function MonthlyOverview({ stats }: MonthlyOverviewProps) {
   const excessMinutes = Math.abs(deficitMinutes);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border-2 border-[#FFD93D] mb-6">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#FFD93D] mb-6">
       <h2 className="text-xl font-bold mb-4 text-[#FF6B00]">📊 {stats.month} 통계</h2>
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">

@@ -103,11 +103,11 @@ export function WorkEntryForm({ onAddEntry, selectedDate, selectedEntry, setSele
   };
   
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-sm border-2 border-[#FFD93D]">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-sm border border-[#FFD93D]">
       <h2 className="text-xl font-semibold mb-4 text-[#FF6B00]">✏️ 근무/휴가 입력</h2>
       
       {error && (
-        <div className="bg-[#FFF3E0] border-2 border-[#FF9F1C] text-[#FF9F1C] px-4 py-2 rounded-lg mb-4 font-medium">
+        <div className="bg-[#FFF3E0] border border-[#FF9F1C] text-[#FF9F1C] px-4 py-2 rounded-lg mb-4 font-medium">
           {error}
         </div>
       )}
@@ -121,7 +121,7 @@ export function WorkEntryForm({ onAddEntry, selectedDate, selectedEntry, setSele
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full px-3 py-2 border-2 border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C]"
+            className="w-full px-3 py-2 border border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C]"
             required
           />
         </div>
@@ -133,7 +133,7 @@ export function WorkEntryForm({ onAddEntry, selectedDate, selectedEntry, setSele
           <select
             value={leaveType || ''}
             onChange={(e) => handleLeaveTypeChange(e.target.value as LeaveType)}
-            className="w-full px-3 py-2 border-2 border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C]"
+            className="w-full px-3 py-2 border border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C]"
           >
             {LEAVE_OPTIONS.map(option => (
               <option key={option.label} value={option.value || ''}>
@@ -152,7 +152,7 @@ export function WorkEntryForm({ onAddEntry, selectedDate, selectedEntry, setSele
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
             disabled={leaveType === '공휴일'}
-            className="w-full px-3 py-2 border-2 border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] disabled:bg-[#FFF8DC] disabled:cursor-not-allowed disabled:text-[#CCC]"
+            className="w-full px-3 py-2 border border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] disabled:bg-[#FFF8DC] disabled:cursor-not-allowed disabled:text-[#CCC]"
             required
           />
         </div>
@@ -166,7 +166,7 @@ export function WorkEntryForm({ onAddEntry, selectedDate, selectedEntry, setSele
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
             disabled={leaveType === '공휴일'}
-            className="w-full px-3 py-2 border-2 border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] disabled:bg-[#FFF8DC] disabled:cursor-not-allowed disabled:text-[#CCC]"
+            className="w-full px-3 py-2 border border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C] disabled:bg-[#FFF8DC] disabled:cursor-not-allowed disabled:text-[#CCC]"
             required
           />
         </div>
@@ -180,7 +180,7 @@ export function WorkEntryForm({ onAddEntry, selectedDate, selectedEntry, setSele
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             placeholder="특이사항"
-            className="w-full px-3 py-2 border-2 border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C]"
+            className="w-full px-3 py-2 border border-[#FFD93D] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF9F1C]"
           />
         </div>
       </div>
